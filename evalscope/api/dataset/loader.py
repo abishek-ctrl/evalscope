@@ -344,7 +344,7 @@ class RemoteDataLoader(DataLoader):
 
         # assign ids and group_ids if requested
         if self.auto_id:
-            memory_dataset.reindex(group_size=self.repeats)
+            memory_dataset.reindex(group_size=self.repeats if self.repeats > 0 else 1)
 
         shuffle_choices_if_requested(memory_dataset, self.shuffle_choices, self.seed)
 
@@ -439,7 +439,7 @@ class LocalDataLoader(DataLoader):
 
         # assign ids and group_ids if requested
         if self.auto_id:
-            memory_dataset.reindex(group_size=self.repeats)
+            memory_dataset.reindex(group_size=self.repeats if self.repeats > 0 else 1)
 
         shuffle_choices_if_requested(memory_dataset, self.shuffle_choices, self.seed)
 
@@ -477,7 +477,7 @@ class DictDataLoader(DataLoader):
 
         # assign ids and group_ids if requested
         if self.auto_id:
-            memory_dataset.reindex(group_size=self.repeats)
+            memory_dataset.reindex(group_size=self.repeats if self.repeats > 0 else 1)
 
         shuffle_choices_if_requested(memory_dataset, self.shuffle_choices, self.seed)
 

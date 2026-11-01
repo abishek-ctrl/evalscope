@@ -281,6 +281,18 @@ def test_repeats_group_the_samples_of_a_multi_sample_record_by_question() -> Non
     assert groups == {0: ['a', 'a'], 1: ['b', 'b']}
 
 
+@pytest.mark.parametrize('repeats', [0, 1])
+def test_repeats_below_one_keep_each_sample_in_its_own_group(repeats: int) -> None:
+    dataset = DictDataLoader(
+        dict_list=[{'text': 'a'}, {'text': 'b'}],
+        sample_fields=_sample_from_record,
+        repeats=repeats,
+        auto_id=True,
+    ).load()
+
+    assert [(sample.id, sample.group_id) for sample in dataset] == [(0, 0), (1, 1)]
+
+
 @pytest.mark.parametrize('seed', [0, 42])
 @pytest.mark.parametrize('limit', [None, 3, 0.5])
 def test_dict_loader_seeded_shuffle_is_repeatable(seed: int, limit: Optional[float | int]) -> None:
